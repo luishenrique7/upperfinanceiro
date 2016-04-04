@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Upper | Cadastro com Sucesso</title>
+        <h:outputStylesheet library="css" name="estilos_externa.css" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputScript library="js" name="jquery-1.11.3.min.js"/>
+        <h:outputScript library="js" name="bootstrap.min.js"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="col-md-8">
+                <div class="well well-sm">
+                    <div class="form-group">
+                        <center><h2>Seja Bem-vindo, <h:outputText value="#{usuarioBean.usuario.nome}"/>.</h2></center>
+                    </div>
+                    <div class="form-group">
+                        <span>Seu cadastro foi realizado com sucesso em nosso sistema!</span>
+                    </div>
+                    <div class="form-group">
+                        <span>Agora você pode usar nosso gerenciador financeiro Upper. Boa sorte!</span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size: 12px; font-weight: bold;">Para começar clique no botão para ir para a página de login.</span>
+                    </div>
+                    <!--<br/>-->
+                    <!--<a href="login.jsf">Clique nesse link para ser redirecionado para a página de login.</a>-->
+                    <div class="form-group ">
+                        <h:button value="Entrar" outcome="login.jsf" class="btn btn-lg btn-block purple-bg"></h:button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

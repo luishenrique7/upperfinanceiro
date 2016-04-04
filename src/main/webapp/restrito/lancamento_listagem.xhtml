@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <div class="col-md-10 col-lg-offset-1">
+            <h:form id="listagem">
+                <div class="well" style="border-radius: 0px 40px 0px 40px;">
+                    <!-- scroll habilita a barra de rolagem quando o tamanho for maior que 200.
+                         rowIndexVar define uma variável que terá o índice da linha que estiver sendo impressa. -->
+                    <p:dataTable scrollable="true" scrollHeight="200" value="#{lancamentoBean.lista}" 
+                                 var="lancamento" rowIndexVar="index" class="table table-striped custab table-hover">
+                        <p:column class="well">
+                            <f:facet name="header"  class="form-control">Data</f:facet>
+                            <h:outputText value="#{lancamento.data}">
+                                <f:convertDateTime dateStyle="medium"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column class="well">
+                            <f:facet name="header"  class="form-control">Descrição</f:facet>
+                            <h:outputText value="#{lancamento.descricao}"/>
+                        </p:column>
+                        <p:column class="well">
+                            <f:facet name="header"  class="form-control">Valor</f:facet>
+                            <!-- Exibe a cor dos lançamentos, positivo verde e negativo vermelho -->
+                            <h:outputText style="color: #{lancamento.categoria.fator gt 0 ? 'green' : 'red' };
+                                          text-align: right; display: block;" value="#{lancamento.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column class="well">
+                            <f:facet name="header"  class="form-control">Saldo</f:facet>
+                            <h:outputText style="color: #{lancamentoBean.saldos[index] gt 0 ? 'green' : 'red' };
+                                          text-align: right; display: block;" value="#{lancamentoBean.saldos[index]}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column class="well" style="width: 50px; text-align: center;">
+                            <p:commandLink action="#{lancamentoBean.editar()}" update=":edicao" style="text-align: center;">
+                                <span class="fa fa-pencil" href="#modal_lancamento" data-toggle="modal"></span>
+                                <f:setPropertyActionListener target="#{lancamentoBean.editado}" value="#{lancamento}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column class="well" style="width: 50px; text-align: center;">
+                            <p:commandLink action="#{lancamentoBean.excluir()}" update=":listagem"
+                                           onclick="if (!confirm('Deseja excluir o lançamento #{lancamento.descricao}?'))
+                                               return false;" style="text-align: center;">
+                                <span class="fa fa-trash"></span>
+                                <f:setPropertyActionListener target="#{lancamentoBean.editado}" value="#{lancamento}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+    </ui:composition>
+
+</html>
+

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/templates/externa.xhtml">
+        <ui:define name="titulo">Upper - Cadastro</ui:define>
+        <ui:define name="corpo">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="modal-dialog" style="margin-bottom:0">
+                        <!--<div class="modal-content">-->
+                        <div class="well well-sm">
+                            <div class="panel-heading">
+                                <img src="http://s30.postimg.org/pr7xs9q8d/Logo_Upper.png" class="img-responsive" alt="" />
+                                <center><h2>Cadastro de Usuários</h2></center>
+                            </div>
+                            <div class="panel-body">
+                                <h:form id="cadastro">
+                                    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
+                                    <h:inputHidden value="#{usuarioBean.usuario.codigo}"/>
+                                    <h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
+                                    <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>
+                                    <!--<h:panelGrid columns="1">-->
+                                    <div class="form-group">
+                                        <legend>Dados Pessoais</legend>
+                                        <p:inputText id="nome" class="form-control input-lg" label="nome" value="#{usuarioBean.usuario.nome}" maxlength="100"
+                                                     placeholder="Nome *" required="true" requiredMessage="Nome obrigatório!">
+                                            <f:validateLength minimum="10" maximum="100"/>
+                                        </p:inputText>
+                                        <p class="help-block" style="font-size: 11px;">• Informe o nome e sobrenome. Ex.: Hugo de Souza.</p>
+                                        <!--<p:message for="nome" display="text" />-->
+                                    </div>
+                                    <div class="form-group">
+                                        <p:inputText id="data" class="form-control input-lg" label="Data Nascimento" value="#{usuarioBean.usuario.nascimento}" 
+                                                     placeholder="Data de Nascimento *" maxlength="10" required="true" 
+                                                     requiredMessage="Data de Nascimento obrigatória!">
+                                            <f:convertDateTime dateStyle="medium"/>
+                                        </p:inputText>
+                                        <p class="help-block" style="font-size: 11px;">• Exemplo: 27/06/1992</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p:inputMask mask="999.999.999-99" id="cpf" class="form-control input-lg" label="CPF" 
+                                                     value="#{usuarioBean.usuario.cpf}" maxlength="14" placeholder="CPF *"/>
+                                        <p class="help-block" style="font-size: 11px;">• Exemplo: 400.667.900-89</p>
+                                        <p class="help-block" style="font-size: 11px;">• Sujeito a validação na receita federal.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:inputMask mask="(99)9 9999-9999" id="celular" class="form-control input-lg" label="Celular" 
+                                                     value="#{usuarioBean.usuario.celular}" maxlength="14" placeholder="Celular (Opcional)"/>
+                                        <p class="help-block" style="font-size: 11px;">• DDD + Número com 9 dígito. Exemplo: (16)98193-7070</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:panelGroup>
+                                            <p:inputText id="email" class="form-control input-lg" label="Email" value="#{usuarioBean.usuario.email}" size="50"
+                                                         placeholder="Email *" maxlength="50" required="true" validatorMessage="Email inválido!" requiredMessage="Email obrigatório!"> 
+                                                <f:validateRegex pattern="[a-z0-9\-\_\.]+@[a-z0-9\.]+"/>
+                                            </p:inputText>
+                                            <p class="help-block" style="font-size: 11px;">• Digite um email válido. seunome@provedor.com</p>
+                                            <!--<p:message for="email"/>-->
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:selectOneMenu id="idioma" class="form-control input-lg" value="#{usuarioBean.usuario.idioma}" rendered="true"
+                                                         requiredMessage="Selecione um idioma!">
+                                            <f:selectItem itemValue="" itemLabel="(selecione seu idioma) *"/>
+                                            <f:selectItem itemValue="pt_BR" itemLabel="Português"/>
+                                            <f:selectItem itemValue="en_US" itemLabel="English"/>
+                                            <f:selectItem itemValue="es_ES" itemLabel="Espanol"/>
+                                        </h:selectOneMenu>
+                                        <p class="help-block" style="font-size: 11px;">• Selecione seu idioma (é o idioma que ficará no sistema).</p>
+                                    </div>
+                                    <legend>Dados para acessar sua conta</legend>
+                                    <div class="form-group">
+                                        <p:inputText id="login" class="form-control input-lg" label="login" value="#{usuarioBean.usuario.login}" size="15"
+                                                     maxlength="15" required="true" validatorMessage="Usuário inválido!" requiredMessage="Usuario obrigatório"
+                                                     placeholder="Usuário *">
+                                            <f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]|[-]){5,15}"/>
+                                        </p:inputText>
+                                        <p class="help-block" style="font-size: 11px;">• Usuário deve ter entre 5 e 15 caracteres, e caracteres especiais: [ . ] ponto, [ - ] hífen e [ _ ] underline.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:inputText id="senha" type="password" class="form-control input-lg" label="senha" value="#{usuarioBean.usuario.senha}" size="16" 
+                                                     placeholder="Senha *" maxlength="16" required="true" requiredMessage="Senha obrigatória!"/>
+                                        <div class="pwstrength_viewport_progress"></div>
+                                        <p class="help-block" style="font-size: 11px;">• Sua senha deve ter entre 8 e 16 caracteres.</p>
+                                        <p class="help-block" style="font-size: 11px;">• Para sua segurança, utilize letras maiúsculas, minúsculas, números e caracteres especiais.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:inputText id="confirmarsenha" type="password" class="form-control input-lg" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}"
+                                                     placeholder="Confirmar Senha *" size="32" maxlength="32" required="true" requiredMessage="Confirmação de senha orbigatória!"/>
+                                        <p class="help-block" style="font-size: 11px;">• Confirme a sua senha.</p>
+                                    </div>
+                                    <!--</h:panelGrid>-->
+
+                                    <!--Esse formulário só é exibido quando for um novo cadastro, para edição ele é oculto.-->
+                                    <h:panelGroup rendered="#{empty usuarioBean.usuario.codigo}">
+                                        <fieldset>
+                                            <legend>Conta Inicial</legend>
+                                            <div class="form-group">
+                                                <p:inputText id="descricao" class="form-control input-lg" label="Descrição" value="#{usuarioBean.conta.descricao}"
+                                                             placeholder="Descrição" maxlength="45"/>
+                                                <p class="help-block" style="font-size: 11px;">• Descrição da conta. Exemplo: Banco do Brasil, Santander, Brasdesco.</p>
+                                                <p class="help-block" style="font-size: 11px;">• Obs: Caso não queira cadastrar uma conta agora é só deixar em branco.</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <p:inputText id="saldoInicial" class="form-control input-lg" label="Saldo Inicial" value="#{usuarioBean.conta.saldoInicial}" 
+                                                             size="10" placeholder="Saldo">
+                                                    <f:convertNumber minFractionDigits="2"/>
+                                                </p:inputText>
+                                                <p class="help-block" style="font-size: 11px;">• Saldo Inicial da conta.</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><h:selectBooleanCheckbox required="true" requiredMessage="Marque que está de acordo com os termos e condições."/> Li e estou de acordo com os  <a href="/upperfinanceiro.com.br/publico/termos.jsf">Termos e Condições</a>.</label>
+                                            </div>
+                                        </fieldset>
+                                    </h:panelGroup>
+                                    <div class="form-group">
+                                        <h:commandButton class="form-control btn btn-primary input-lg" action="#{usuarioBean.salvar}" value="Salvar"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:commandButton class="form-control btn btn-default input-lg" action="#" value="Cancelar"/>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

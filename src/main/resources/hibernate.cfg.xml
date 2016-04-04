@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    <!-- É necessário para o funcionamento do filtro de conexão. Ela indica que a sessão atual do Hibernate deve ser diferente a cada nova thread. -->
+    <property name="hibernate.current_session_context_class">thread</property>
+    <!--Cria automaticamente a estrutura das tabelas com base nas persistências mapeadas.-->
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <!--Aponta para o Data Source JNDI-->
+    <property name="connection.datasource">java:/comp/env/jdbc/FinanceiroDB</property>
+    
+    <!--Mapeamento das classes-->
+    <mapping class="br.com.upperfinanceiro.model.Usuario" />
+    <mapping class="br.com.upperfinanceiro.model.Conta" />
+    <mapping class="br.com.upperfinanceiro.model.Categoria" />
+    <mapping class="br.com.upperfinanceiro.model.Lancamento" />
+    <mapping class="br.com.upperfinanceiro.model.Cheque" />
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/templates/interna.xhtml">
+        <ui:define name="titulo">Contas - Upper Financeiro</ui:define>
+        <ui:define name="corpo">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="btn-toolbar demoPadder" role="toolbar" style="margin-bottom: 20px;">
+
+
+                    <div class="col-md-4 col-md-offset-0">
+                        <div class="material-button-anim">
+                            <button class="material-button material-button-toggle" type="button"  href="#modalConta" 
+                                    data-toggle="modal" title="Criar uma nova conta">
+                                <span class="fa fa-plus" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <h:form id="listagem">
+                    <div class="well">
+                        <!--not empty só exibe a tabela se tiver alguma conta, caso não teja ele não renderiza a tabela.-->
+                        <h:dataTable value="#{contaBean.lista}" var="conta" rendered="#{not empty contaBean.lista}"
+                                     class="table table-striped custab table-hover" style="font-size: 16px;">
+
+                            <h:column class="well">
+                                <f:facet name="header">Descrição</f:facet>
+                                <h:outputText value="#{conta.descricao}"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header"  class="form-control">Data de Cadastro</f:facet>
+                                <h:outputText value="#{conta.cadastro}">
+                                    <f:convertDateTime dateStyle="medium"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header"  class="form-control">Saldo</f:facet>
+                                <h:outputText value="#{conta.saldoInicial}">
+                                    <f:convertNumber minFractionDigits="2"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <!--Link que permite marcar a conta como favorita.-->
+                                <h:commandLink action="#{contaBean.tornarFavorita()}" title="Conta Favorita">
+                                    <!--Somente o componente será recarregado por causa do @this.-->
+                                    <f:ajax execute="@this" render=":listagem"/>
+                                    <h:graphicImage library="imagens" name="favorita16_#{conta.favorita}.png"/>
+                                    <!--Seta a conta selecionada.-->
+                                    <f:setPropertyActionListener target="#{contaBean.selecionada}" value="#{conta}"/>
+                                </h:commandLink>
+
+                                <h:commandLink style="margin-left: 10px;" class="btn btn-link btn-xs " title="Editar conta">
+                                    <span class="fa fa-pencil-square-o" href="#modalConta" data-toggle="modal"></span>
+                                    <!--O AJAX recarrega e exibe os dados no formulário de edição, através do f:setPropertyActionListener.-->
+                                    <f:ajax execute="@this" render=":edicao"/>
+                                    <f:setPropertyActionListener target="#{contaBean.selecionada}" value="#{conta}"/>
+                                </h:commandLink>
+
+                                <h:commandLink class="btn btn-link btn-xs" title="Excluir conta" action="#{contaBean.excluir()}"
+                                               onclick="if (!confirm('Confirma a exclusão da conta #{conta.descricao}?'))
+                                                           return false;">
+                                    <span class="fa fa-times"></span>
+                                    <f:ajax execute="@this" render=":listagem"/>
+                                    <f:setPropertyActionListener target="#{contaBean.selecionada}" value="#{conta}"/>
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:form>
+            </div>
+
+            <div class="col-md-3 col-md-offset-1">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-plus-square-o"></i> Saldo Total</h3>
+                        <span class="pull-right clickable"><i class="fa fa-arrow-up"></i></span>
+                    </div>
+                    <div class="panel-body font-color-green">R$ 2.738,90</div>
+                </div>
+            </div>
+
+            <!-- line modal -->
+            <div id="modalConta" class="modal fade in">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <a class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span></a>
+                            <h4 class="modal-title"><i class="fa fa-bank"></i> Conta</h4>
+                        </div>
+                        <h:form id="edicao">
+                            <div class="modal-body">
+                                <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
+                                <h:inputHidden value="#{contaBean.selecionada.conta}"/>
+                                <h:inputHidden value="#{contaBean.selecionada.favorita}"/>
+
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <p:inputText id="descricao" class="form-control" label="descricao" value="#{contaBean.selecionada.descricao}" maxlength="50"
+                                                 placeholder="Descrição *" required="true" requiredMessage="Descrição Obrigatória!" title="Cadastre uma conta. Ex: Carteira, Banco do Brasil, Bradesco...">
+                                        <f:validateLength minimum="3" maximum="50"/>
+                                    </p:inputText>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="saldo">Saldo</label>
+                                    <p:inputText id="saldoInicial" class="form-control" label="saldoInicial" value="#{contaBean.selecionada.saldoInicial}" maxlength="10"
+                                                 placeholder="Saldo Inicial" title="Entre com o saldo atual da conta em reais R$.">
+                                        <f:convertNumber minFractionDigits="2"/>
+                                    </p:inputText>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger" data-dismiss="modal"><span class="fa fa-remove"></span> Cancelar</button>
+                                    <!--<button class="btn btn-primary"> Salvar</button>-->
+                                    <h:commandButton value="Salvar" class="btn btn-primary" action="#{contaBean.salvar()}" style="width: 100px;">
+                                        <!--Não recarrega a página toda, somente a parte definida pelo Ajax-->
+                                        <f:ajax execute="@form" render=":edicao :listagem"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </h:form>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div><!-- /.modal -->
+
+        </ui:define>
+    </ui:composition>
+</html>
+

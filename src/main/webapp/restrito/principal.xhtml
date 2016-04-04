@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/components/util"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/templates/interna.xhtml">
+        <ui:define name="titulo">Dashboard - Upper</ui:define>
+        <ui:define name="corpo">
+            <h:form>
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-3 col-md-offset-0" style="margin-bottom: 50px;">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-check"></i> <i class="fa fa-money"></i> Saldo acumulado</h3>
+                                    <span class="pull-right clickable"><i class="fa fa-arrow-up"></i></span>
+                                </div>
+                                <div class="panel-body font-color-blue">R$ 610,22</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" style="margin-bottom: 50px;">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-plus"></i> <i class="fa fa-money"></i>  Receitas</h3>
+                                    <span class="pull-right clickable"><i class="fa fa-arrow-up"></i></span>
+                                </div>
+                                <div class="panel-body font-color-green">R$ 2.500,00</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-bottom: 50px;">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-minus"></i> <i class="fa fa-money"></i> Despesas</h3>
+                                    <span class="pull-right clickable"><i class="fa fa-arrow-up"></i></span>
+                                </div>
+                                <div class="panel-body font-color-red">R$ 1.889,78</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" style="margin-bottom: 50px;">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-credit-card"></i> Cartão de Crédito</h3>
+                                    <span class="pull-right clickable"><i class="fa fa-arrow-up"></i></span>
+                                </div>
+                                <div class="panel-body font-color-orange">R$ 394,81</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Lançamentos até hoje</h3>
+                                    <span class="pull-right"><i class="fa fa-list"></i></span>
+                                </div>
+                                <util:extrato height="150" lista="#{principalBean.listaAtehoje}" larguraDescricao="130"
+                                          botaoExclusao="false" botaoEdicao="false" colunaSaldo="false"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Lançamentos futuros</h3>
+                                    <span class="pull-right"><i class="fa fa-circle-o-notch"></i></span>
+                                </div>
+                                <util:extrato height="150" lista="#{principalBean.listaFuturos}" larguraDescricao="130"
+                                          botaoExclusao="false" botaoEdicao="false" colunaSaldo="false"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6"> 
+                            <div id="my-calendar"></div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                
+<!--                <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGroup>
+                        <fieldset>
+                            <legend>Lançamentos até hoje</legend>
+                            <util:extrato height="100" lista="{principalBean.listaAtehoje}" larguraDescricao="10"
+                                          botaoExclusao="false" botaoEdicao="false" colunaSaldo="false"/>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Lançamentos futuros</legend>
+                            <util:extrato height="100" lista="{principalBean.listaFuturos}" larguraDescricao="130"
+                                          botaoExclusao="false" botaoEdicao="false" colunaSaldo="false"/>
+                        </fieldset>
+                    </h:panelGroup>
+                </h:panelGrid>-->
+                
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
